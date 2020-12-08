@@ -1,0 +1,10 @@
+services:
+  tools:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: "no"
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: tail -f /dev/null
