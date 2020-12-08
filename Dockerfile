@@ -49,5 +49,6 @@ COPY --from=build \
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache \
+        gcc \
         protobuf \
         protobuf-dev
