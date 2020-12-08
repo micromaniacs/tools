@@ -18,7 +18,6 @@ RUN apk update \
     && apk add --no-cache \
         curl \
         git \
-        upx \
     # Formatting tools
     && go get mvdan.cc/gofumpt \
     && go get golang.org/x/tools/cmd/goimports \
@@ -27,14 +26,7 @@ RUN apk update \
     # Mocks generator
     && go get "github.com/golang/mock/mockgen@$MOCKGEN_VERSION" \
     # Protobuf code generator
-    && go get "github.com/golang/protobuf/protoc-gen-go@$PROTOC_GEN_GO_VERSION" \
-    # Minimize binaries
-    && upx -9 \
-        /go/bin/gofumpt \
-        /go/bin/goimports \
-        /go/bin/golangci-lint \
-        /go/bin/mockgen \
-        /go/bin/protoc-gen-go
+    && go get "github.com/golang/protobuf/protoc-gen-go@$PROTOC_GEN_GO_VERSION"
 
 FROM golang:$GOLANG_VERSION
 
