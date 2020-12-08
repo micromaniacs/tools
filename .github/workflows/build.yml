@@ -12,6 +12,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - uses: olegtarasov/get-tag@v2
+        id: tagName
+        with:
+          tagRegex: "v(.*)"
+
       - name: Setup BuildX
         uses: docker/setup-buildx-action@v1
 
@@ -28,4 +33,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: micromaniacs/tools:${{ github.event.release.tag_name }}
+          tags: micromaniacs/tools:${{ steps.tagName.outputs.tag }}
