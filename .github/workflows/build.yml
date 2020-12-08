@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: micromaniacs/tools:${{ github.event.ref }}
+          tags: micromaniacs/tools:${{ github.event.release.tag_name }}
