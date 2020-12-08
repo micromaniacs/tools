@@ -17,11 +17,12 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          registry: ghcr.io
+          registry: docker.pkg.github.com
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
           context: .
           file: ./Dockerfile
           push: true
           repository: micromaniacs/tools
+          tags: micromaniacs/tools:latest
           tag_with_ref: true
