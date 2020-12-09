@@ -18,6 +18,9 @@ RUN apk update \
     && apk add --no-cache \
         curl \
         git \
+        make \
+        protobuf \
+        protobuf-dev \
         upx \
     # Formatting tools
     && go get mvdan.cc/gofumpt \
@@ -26,15 +29,18 @@ RUN apk update \
     && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin "$GOLANGCI_LINT_VERSION" \
     # Mocks generator
     && go get "github.com/golang/mock/mockgen@$MOCKGEN_VERSION" \
-    # Protobuf code generator
+    # Protobuf code generators
     && go get "github.com/golang/protobuf/protoc-gen-go@$PROTOC_GEN_GO_VERSION" \
-    # Minimize binaries
+    && GO111MODULE=off go get -d "github.com/envoyproxy/protoc-gen-validate" \
+    && cd "$GOPATH/src/github.com/envoyproxy/protoc-gen-validate" \
+    && make build \
     && upx -9 \
         /go/bin/gofumpt \
         /go/bin/goimports \
         /go/bin/golangci-lint \
         /go/bin/mockgen \
-        /go/bin/protoc-gen-go
+        /go/bin/protoc-gen-go \
+        /go/bin/protoc-gen-validate
 
 FROM golang:$GOLANG_VERSION
 
@@ -44,6 +50,7 @@ COPY --from=build \
     /go/bin/golangci-lint \
     /go/bin/mockgen \
     /go/bin/protoc-gen-go \
+    /go/bin/protoc-gen-validate \
     /bin/
 
 RUN apk update \

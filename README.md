@@ -8,7 +8,8 @@ Contains following:
     * golangci-lint
     * mockgen
     * protoc-gen-go
-    
+    * protoc-gen-validate
+
 ## License
 
 ```
